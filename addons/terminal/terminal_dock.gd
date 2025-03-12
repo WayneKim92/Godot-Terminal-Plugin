@@ -34,6 +34,10 @@ func _on_command_submitted(command: String) -> void:
 
 	update_current_path()
 	input.clear()
+	
+	await get_tree().process_frame
+	output.scroll_vertical = output.get_v_scroll_bar().max_value
+
 
 func _change_directory(args: Array) -> void:
 	if args.is_empty():
