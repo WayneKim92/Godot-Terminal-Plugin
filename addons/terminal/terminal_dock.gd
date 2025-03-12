@@ -26,6 +26,8 @@ func _on_command_submitted(command: String) -> void:
 	var cmd = tokens[0]
 	var args = tokens.slice(1)
 
+	output.text += "\n> " + command  # 입력한 명령어 추가
+
 	if cmd == "cd":
 		_change_directory(args)
 	else:
@@ -58,7 +60,7 @@ func _execute_command(command: String) -> void:
 	var shell_command = "cd \"%s\" && %s" % [current_path, command]
 	var exit_code = OS.execute("/bin/sh", ["-c", shell_command], result, true)
 	
-	output.text = "\n".join(result)
+	output.text += "\n" + "\n".join(result)  # 기존 출력에 추가
 	
 	if exit_code != 0:
 		output.text += "\n[Error] Exit code: %s" % exit_code
