@@ -19,6 +19,10 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
+[node name="CurrentPath" type="LineEdit" parent="VBoxContainer"]
+layout_mode = 2
+editable = false
+
 [node name="Output" type="TextEdit" parent="VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
