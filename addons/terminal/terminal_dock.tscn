@@ -21,6 +21,7 @@ grow_vertical = 2
 
 [node name="CurrentPath" type="LineEdit" parent="VBoxContainer"]
 layout_mode = 2
+text = "/Users/eunchankim/GodotWorkspace/godot-terminal-plugin"
 editable = false
 
 [node name="Output" type="TextEdit" parent="VBoxContainer"]

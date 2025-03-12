@@ -11,7 +11,6 @@ var history_index = -1
 
 func _ready():
 	input.connect("text_submitted", _on_command_submitted)
-	input.connect("gui_input", _on_input_gui_event)  # 입력 이벤트 감지
 	update_current_path()
 
 func _on_command_submitted(command: String) -> void:
@@ -25,6 +24,8 @@ func _on_command_submitted(command: String) -> void:
 	var tokens = command.split(" ")
 	var cmd = tokens[0]
 	var args = tokens.slice(1)
+
+	output.text += "\n> " + command  # 입력한 명령어 추가
 
 	if cmd == "cd":
 		_change_directory(args)
@@ -58,33 +59,13 @@ func _execute_command(command: String) -> void:
 	var shell_command = "cd \"%s\" && %s" % [current_path, command]
 	var exit_code = OS.execute("/bin/sh", ["-c", shell_command], result, true)
 	
-	output.text = "\n".join(result)
+	output.text += "\n" + "\n".join(result)  # 기존 출력에 추가
 	
 	if exit_code != 0:
 		output.text += "\n[Error] Exit code: %s" % exit_code
 
 func update_current_path() -> void:
 	current_path_label.text = current_path
-
-func _on_input_gui_event(event: InputEvent) -> void:
-	if event is InputEventKey and not input.has_focus():  # 입력창에서만 화살표 동작 방지
-		if event.keycode == KEY_UP:
-			if history_index > 0:
-				history_index -= 1
-				input.text = command_history[history_index]
-				input.set_caret_column(input.text.length())
-				input.caret_position = input.text.length()
-				print("Key UP pressed, history_index: ", history_index)
-		elif event.keycode == KEY_DOWN:
-			if history_index < command_history.size() - 1:
-				history_index += 1
-				input.text = command_history[history_index]
-				input.set_caret_column(input.text.length())
-				input.caret_position = input.text.length()
-				print("Key DOWN pressed, history_index: ", history_index)
-			else:
-				input.text = ""
-				print("Key DOWN pressed, no more history")
 
 func _get_initial_path() -> String:
 	var result = []
