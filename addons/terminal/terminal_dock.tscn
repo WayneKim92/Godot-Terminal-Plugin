@@ -30,3 +30,4 @@ editable = false
 
 [node name="Input" type="LineEdit" parent="VBoxContainer"]
 layout_mode = 2
+keep_editing_on_text_submit = true
